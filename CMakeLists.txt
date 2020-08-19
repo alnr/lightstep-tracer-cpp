@@ -131,8 +131,8 @@ endif()
 include_directories(SYSTEM ${OPENTRACING_INCLUDE_DIR})
 list(APPEND LIGHTSTEP_LINK_LIBRARIES ${OPENTRACING_LIBRARY})
 
-if (WITH_GRPC)                           
-  find_package(gRPC CONFIG)
+if (WITH_GRPC)
+  find_package(gRPC MODULE)
   # First attempt to set up gRPC via cmake; but if cmake config files aren't
   # available, fallback to pkg-config.
   if (gRPC_FOUND)
