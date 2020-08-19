@@ -120,8 +120,8 @@ static std::shared_ptr<LightStepTracer> MakeThreadedTracer(
   auto propagation_options = MakePropagationOptions(options);
   auto recorder = std::unique_ptr<Recorder>{
       new AutoRecorder{*logger, std::move(options), std::move(transporter)}};
-  return std::shared_ptr<LightStepTracer>{new LegacyTracerImpl{
-      std::move(logger), std::move(propagation_options), std::move(recorder)}};
+  return std::shared_ptr<LightStepTracer>{std::make_shared<LegacyTracerImpl>(
+      std::move(logger), std::move(propagation_options), std::move(recorder))};
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -131,8 +131,8 @@ static std::shared_ptr<LightStepTracer> MakeStreamTracer(
     std::shared_ptr<Logger> logger, LightStepTracerOptions&& options) {
   auto propagation_options = MakePropagationOptions(options);
   auto recorder = MakeStreamRecorder(*logger, std::move(options));
-  return std::shared_ptr<LightStepTracer>{new TracerImpl{
-      std::move(logger), std::move(propagation_options), std::move(recorder)}};
+  return std::shared_ptr<LightStepTracer>{std::make_shared<TracerImpl>(
+      std::move(logger), std::move(propagation_options), std::move(recorder))};
 }
 
 //------------------------------------------------------------------------------
@@ -159,8 +159,8 @@ static std::shared_ptr<LightStepTracer> MakeLegacySingleThreadedTracer(
   auto propagation_options = MakePropagationOptions(options);
   auto recorder = std::unique_ptr<Recorder>{new LegacyManualRecorder{
       *logger, std::move(options), std::move(transporter)}};
-  return std::shared_ptr<LightStepTracer>{new LegacyTracerImpl{
-      std::move(logger), std::move(propagation_options), std::move(recorder)}};
+  return std::shared_ptr<LightStepTracer>{std::make_shared<LegacyTracerImpl>(
+      std::move(logger), std::move(propagation_options), std::move(recorder))};
 }
 
 //------------------------------------------------------------------------------
@@ -184,8 +184,8 @@ static std::shared_ptr<LightStepTracer> MakeSingleThreadedTracer(
   auto propagation_options = MakePropagationOptions(options);
   auto recorder = std::unique_ptr<Recorder>{
       new ManualRecorder{*logger, std::move(options), std::move(transporter)}};
-  return std::shared_ptr<LightStepTracer>{new TracerImpl{
-      std::move(logger), std::move(propagation_options), std::move(recorder)}};
+  return std::shared_ptr<LightStepTracer>{std::make_shared<TracerImpl>(
+      std::move(logger), std::move(propagation_options), std::move(recorder))};
 }
 
 //------------------------------------------------------------------------------
